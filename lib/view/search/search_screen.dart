@@ -4,6 +4,7 @@ import 'package:spiro_study/controller/search_controller.dart';
 import 'package:spiro_study/src/custom_colors.dart';
 import 'package:spiro_study/view/component/item_view.dart';
 import 'package:spiro_study/view/component/search_bar.dart';
+import 'package:spiro_study/view/details_screen.dart';
 
 class SearchScreen extends StatelessWidget {
   TextEditingController textEditingController = TextEditingController();
@@ -50,6 +51,10 @@ class SearchScreen extends StatelessWidget {
                 itemCount: searchController.searchResult.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ItemView(
+                    onTap: () {
+                      print('Index Click $index');
+                      Get.to(DetailScreen(searchModel: searchController.searchResult[index],));
+                    },
                     searchModel: searchController.searchResult[index],
                   );
                 },

@@ -6,20 +6,19 @@ import 'package:spiro_study/utility/size_config.dart';
 class ItemView extends StatelessWidget {
   SearchModel? searchModel;
 
-  ItemView({this.searchModel});
+  VoidCallback? onTap;
+
+  ItemView({this.searchModel, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    print('Width : ${SizeConfig.heightMultiplier! * 0.49}');
     return Container(
       margin: EdgeInsets.only(left: 12, right: 12, top: 8),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           splashColor: Colors.amber,
-          onTap: () {
-            //
-          },
+          onTap: onTap,
           child: Stack(
             children: [
               Container(

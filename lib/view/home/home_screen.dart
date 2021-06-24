@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: false,
         actions: [
           IconButton(
+            padding: EdgeInsets.only(right: 12),
             icon: Icon(
               Icons.search,
               color: ShowColors.colorTextIcons,
