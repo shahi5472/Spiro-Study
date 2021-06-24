@@ -25,12 +25,14 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-
-    _playerController = VideoPlayerController.network(
-        'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
-      ..initialize().then((value) {
-        stateChange();
-      });
+    _playerController =
+        //VideoPlayerController.network('${widget.searchModel!.video!.link}')
+        VideoPlayerController.network(
+            'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+          ..initialize()
+          ..setLooping(true).then((value) {
+            stateChange();
+          });
   }
 
   @override
@@ -55,25 +57,34 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       backgroundColor: ShowColors.purple_200,
       body: Center(
-        child: _playerController!.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _playerController!.value.aspectRatio,
-                child: VideoPlayer(_playerController!),
-              )
-            : Container(),
+        child:
+            _playerController != null && _playerController!.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _playerController!.value.aspectRatio,
+                    child: VideoPlayer(_playerController!),
+                  )
+                : CircularProgressIndicator(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _playerController!.value.isPlaying
-                ? _playerController!.pause()
-                : _playerController!.play();
-          });
-        },
+        onPressed:
+            _playerController != null && _playerController!.value.isInitialized
+                ? () {
+                    _playerController!.value.isPlaying
+                        ? _playerController!.pause()
+                        : _playerController!.play();
+                    stateChange();
+                  }
+                : null,
         child: Icon(
           _playerController!.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _playerController!.dispose();
   }
 }
